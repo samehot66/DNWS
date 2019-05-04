@@ -10,7 +10,7 @@ namespace DNWS
 {
     class TwitterApiPlugin : TwitterPlugin
     {
-        private List<User> GetUser(string name)
+        private List<User> GetUser()
         {
             using (var context = new TweetContext())
             {
@@ -43,7 +43,7 @@ namespace DNWS
                 {
                     if (request.Method == "GET")
                     {
-                        string js = JsonConvert.SerializeObject(GetUser(user));
+                        string js = JsonConvert.SerializeObject(GetUser());
                         response.body = Encoding.UTF8.GetBytes(js);
                     }
                     else if (request.Method == "POST")
@@ -91,9 +91,9 @@ namespace DNWS
                     {
                         if (request.Method == "GET")
                         {
-                            string js = JsonConvert.SerializeObject(tw.GetUserTimeline());
+                            string js = JsonConvert.SerializeObject(tw.GetUserTimeline()); //userself timeline
                             response.body = Encoding.UTF8.GetBytes(js);
-                            if (fllw_timeline != null)
+                            if (fllw_timeline != null) //if following timeline not equal null that means select following timeline
                             {
                                 string js1 = JsonConvert.SerializeObject(tw.GetFollowingTimeline());
                                 response.body = Encoding.UTF8.GetBytes(js1);
