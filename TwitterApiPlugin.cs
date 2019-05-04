@@ -93,9 +93,9 @@ namespace DNWS
                         if (request.Method == "GET")
                         {
                             Twitter tw = new Twitter(user);
-                            string js = JsonConvert.SerializeObject(tw.GetUserTimeline()); //userself timeline
+                            string js = JsonConvert.SerializeObject(tw.GetUserTimeline()); //userself timeline TO TEST using ?user=a
                             response.body = Encoding.UTF8.GetBytes(js);
-                            if (fllw_timeline != null) //if following timeline not equal null that means select following timeline
+                            if (fllw_timeline != null) //if following timeline not equal null that means select following timeline TO TEST using ?user=w&timeline=a
                             {
                                 string js1 = JsonConvert.SerializeObject(tw.GetFollowingTimeline());
                                 response.body = Encoding.UTF8.GetBytes(js1);
@@ -104,7 +104,7 @@ namespace DNWS
                         else if (request.Method == "POST")
                         {
                             Twitter tw = new Twitter(user);
-                            tw.PostTweet(msg);
+                            tw.PostTweet(msg); 
                         }
                     }
                 }
