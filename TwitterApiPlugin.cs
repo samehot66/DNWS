@@ -36,7 +36,6 @@ namespace DNWS
             string fllw_timeline = request.getRequestByKey("timeline");
             string msg = request.getRequestByKey("msg");
             string []url =  request.Filename.Split("?");
-            Twitter tw = new Twitter(user);
             try
             {
                 if (url[0] == "users")
@@ -65,6 +64,7 @@ namespace DNWS
                 {
                     if (request.Method == "GET")
                     {
+                        Twitter tw = new Twitter(user);
                         string js = JsonConvert.SerializeObject(tw.GetFollowing());
                         response.body = Encoding.UTF8.GetBytes(js);
                     }
@@ -72,7 +72,7 @@ namespace DNWS
                     {
                         if (user != null && following != null)
                         {
-
+                            Twitter tw = new Twitter(user);
                             tw.AddFollowing(following);
                         }
                     }
@@ -80,6 +80,7 @@ namespace DNWS
                     {
                         if (user != null && following != null)
                         {
+                            Twitter tw = new Twitter(user);
                             tw.RemoveFollowing(following);
 
                         }
@@ -91,6 +92,7 @@ namespace DNWS
                     {
                         if (request.Method == "GET")
                         {
+                            Twitter tw = new Twitter(user);
                             string js = JsonConvert.SerializeObject(tw.GetUserTimeline()); //userself timeline
                             response.body = Encoding.UTF8.GetBytes(js);
                             if (fllw_timeline != null) //if following timeline not equal null that means select following timeline
@@ -101,6 +103,7 @@ namespace DNWS
                         }
                         else if (request.Method == "POST")
                         {
+                            Twitter tw = new Twitter(user);
                             tw.PostTweet(msg);
                         }
                     }
