@@ -74,6 +74,24 @@ namespace DNWS
                 context.SaveChanges();
             }
         }
+        public static void RemoveUser(string user)
+        {
+            if (user == null)
+            {
+                throw new Exception("User is not set");
+            }
+        
+            using (var context = new TweetContext())
+            {
+                List<User> userlist = context.Users.Where(b => b.Name.Equals(user)).ToList();
+                if (userlist.Count <= 0)
+                {
+                    throw new Exception("User not found");
+                }
+                context.Users.Remove(userlist[0]);
+                context.SaveChanges();
+            }
+        }
         public void AddFollowing(string followingName)
         {
             if (user == null)
@@ -144,6 +162,26 @@ namespace DNWS
             timeline = timeline.OrderBy(b => b.DateCreated).ToList();
             return timeline;
         }
+
+        public List<Following> GetFollowing()
+        {
+            if (user == null)
+            {
+                throw new Exception("User is not set");
+            }
+           
+            using (var context = new TweetContext())
+            {
+                List<Following> followings = user.Following;
+                if (followings == null || followings.Count == 0)
+                {
+                    return null;
+                }
+                return followings;
+            }
+           
+        }
+
         public void PostTweet(string message)
         {
             if (user == null)
@@ -273,7 +311,7 @@ namespace DNWS
         }
 
 
-        public HTTPResponse GetResponse(HTTPRequest request)
+        public virtual HTTPResponse GetResponse(HTTPRequest request)
         {
             HTTPResponse response = new HTTPResponse(200);
             StringBuilder sb = new StringBuilder();
@@ -294,6 +332,7 @@ namespace DNWS
                     try
                     {
                         Twitter twitter = new Twitter(user);
+
                         sb.Append(String.Format("<h1>{0}'s Twitter</h1>", user));
                         sb = GenTimeline(twitter, sb);
                     }

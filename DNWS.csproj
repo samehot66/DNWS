@@ -6,11 +6,12 @@
   </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
     </ItemGroup>
       <ItemGroup>
       <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     </ItemGroup>
+      <ProjectExtensions><VisualStudio><UserProperties config_1json__JSONSchema="http://json.schemastore.org/debugsettings" /></VisualStudio></ProjectExtensions>
 </Project>
