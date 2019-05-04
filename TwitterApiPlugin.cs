@@ -37,71 +37,81 @@ namespace DNWS
             string msg = request.getRequestByKey("msg");
             string []url =  request.Filename.Split("?");
             Twitter tw = new Twitter(user);
-            if (url[0] == "users")
+            try
             {
-                if (request.Method == "GET")
-                {
-                    string js = JsonConvert.SerializeObject(GetUser(user));
-                    response.body = Encoding.UTF8.GetBytes(js);
-                }
-                else if (request.Method == "POST")
-                {
-                    if (user != null && password != null)
-                    {
-                        Twitter.AddUser(user, password);
-                    }
-                }
-                else if (request.Method == "DELETE")
-                {
-                    if (user != null)
-                    {
-                        Twitter.RemoveUser(user);
-                    }
-                }
-            }
-            else if (url[0] == "following")
-            {
-                if (request.Method == "GET")
-                {
-                    string js = JsonConvert.SerializeObject(tw.GetFollowing());
-                    response.body = Encoding.UTF8.GetBytes(js);
-                }
-                else if (request.Method == "POST")
-                {
-                    if (user != null && following != null)
-                    {
-
-                        tw.AddFollowing(following);
-                    }
-                }
-                else if (request.Method == "DELETE")
-                {
-                    if (user != null && following != null)
-                    {
-                        tw.RemoveFollowing(following);
-                        response.status = 200;
-                    }
-                }
-            }
-            else if (url[0] == "tweets")
-            {
-                if (user != null)
+                if (url[0] == "users")
                 {
                     if (request.Method == "GET")
                     {
-                        string js = JsonConvert.SerializeObject(tw.GetUserTimeline());
+                        string js = JsonConvert.SerializeObject(GetUser(user));
                         response.body = Encoding.UTF8.GetBytes(js);
-                        if (fllw_timeline != null)
-                        {
-                            string js1 = JsonConvert.SerializeObject(tw.GetFollowingTimeline());
-                            response.body = Encoding.UTF8.GetBytes(js1);
-                        } 
                     }
                     else if (request.Method == "POST")
                     {
-                        tw.PostTweet(msg);
+                        if (user != null && password != null)
+                        {
+                            Twitter.AddUser(user, password);
+                        }
+                    }
+                    else if (request.Method == "DELETE")
+                    {
+                        if (user != null)
+                        {
+                            Twitter.RemoveUser(user);
+                        }
                     }
                 }
+                else if (url[0] == "following")
+                {
+                    if (request.Method == "GET")
+                    {
+                        string js = JsonConvert.SerializeObject(tw.GetFollowing());
+                        response.body = Encoding.UTF8.GetBytes(js);
+                    }
+                    else if (request.Method == "POST")
+                    {
+                        if (user != null && following != null)
+                        {
+
+                            tw.AddFollowing(following);
+                        }
+                    }
+                    else if (request.Method == "DELETE")
+                    {
+                        if (user != null && following != null)
+                        {
+                            tw.RemoveFollowing(following);
+
+                        }
+                    }
+                }
+                else if (url[0] == "tweets")
+                {
+                    if (user != null)
+                    {
+                        if (request.Method == "GET")
+                        {
+                            string js = JsonConvert.SerializeObject(tw.GetUserTimeline());
+                            response.body = Encoding.UTF8.GetBytes(js);
+                            if (fllw_timeline != null)
+                            {
+                                string js1 = JsonConvert.SerializeObject(tw.GetFollowingTimeline());
+                                response.body = Encoding.UTF8.GetBytes(js1);
+                            }
+                        }
+                        else if (request.Method == "POST")
+                        {
+                            tw.PostTweet(msg);
+                        }
+                    }
+                }
+            }catch (Exception ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                Console.WriteLine(ex.ToString());
+                sb.Append(String.Format("Error [{0}], please go back to <a href=\"/twitter\">login page</a> to try again", ex.Message));
+                response.body = Encoding.UTF8.GetBytes(sb.ToString());
+                return response;
             }
             response.type = "application/json; charset=UTF-8";
             return response;
