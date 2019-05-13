@@ -16,7 +16,7 @@ angular.module('loginPage', ['ngRoute', 'ngCookies'])
       self.sendLogin = function sendLogin(username, password)
       {
         const requestOptions = {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            headers: { 'Content-Type': 'application/json;charset=uft-8' }
         };
         const data = "username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password);
         $http.post('http://localhost:8080/twitterapi/login/', data, requestOptions).then(function (response) {

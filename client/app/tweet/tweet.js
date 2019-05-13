@@ -7,7 +7,7 @@ angular.module('tweetList', ['ngRoute'])
       var self = this;
 
       const requestOptions = {
-          headers: { 'X-session': $rootScope.x_session }
+          headers: { 'X-session': $rootScope.x_session, 'Content-Type': 'application/json;charset=uft-8'}
       };
 
       $http.get('http://localhost:8080/twitterapi/tweet/', requestOptions).then(function (response) {
